@@ -42,10 +42,10 @@ open class PieChartRenderer: DataRenderer
             // If we redraw the data, remove and repopulate accessible elements to update label values and frames
             accessibleChartElements.removeAll()
 
-            for (index, set) in (pieData!.dataSets as! [IPieChartDataSet]).enumerated()
+            for set in pieData!.dataSets as! [IPieChartDataSet]
                 where set.isVisible && set.entryCount > 0
             {
-                drawDataSet(context: context, dataSet: set, index: index)
+                drawDataSet(context: context, dataSet: set)
             }
         }
     }
@@ -109,7 +109,7 @@ open class PieChartRenderer: DataRenderer
         return sliceSpace
     }
 
-    @objc open func drawDataSet(context: CGContext, dataSet: IPieChartDataSet, index: Int)
+    @objc open func drawDataSet(context: CGContext, dataSet: IPieChartDataSet)
     {
         guard let chart = chart else {return }
 
@@ -118,17 +118,11 @@ open class PieChartRenderer: DataRenderer
 
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
-
-        let borderWidth = dataSet.getSliceBorderWidth(index: index)
-        let borderColor = dataSet.getSliceBorderColor(index: index)
-        let drawBorder = borderWidth > 0.0
         
         let entryCount = dataSet.entryCount
         let drawAngles = chart.drawAngles
         let center = chart.centerCircleBox
-        let radius = chart.radius - borderWidth
         let drawInnerArc = chart.drawHoleEnabled && !chart.drawSlicesUnderHoleEnabled
-        let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
 
         var visibleAngleCount = 0
         for j in 0 ..< entryCount
@@ -163,6 +157,11 @@ open class PieChartRenderer: DataRenderer
         
         for j in 0 ..< entryCount
         {
+            let borderWidth = dataSet.getSliceBorderWidth(index: j)
+            let borderColor = dataSet.getSliceBorderColor(index: j)
+            let drawBorder = borderWidth > 0.0
+            let radius = chart.radius - borderWidth
+            let userInnerRadius = drawInnerArc ? radius * chart.holeRadiusPercent : 0.0
             let sliceAngle = drawAngles[j]
             var innerRadius = userInnerRadius
 
