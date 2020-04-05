@@ -62,9 +62,9 @@ public protocol IPieChartDataSet: IChartDataSet
     var highlightColor: NSUIColor? { get set }
     
     /// the width used for drawing borders around the slices. If borderWidth == 0, no border will be drawn.
-    var sliceBorderWidth: CGFloat { get set }
+    func getSliceBorderWidth(index: Int) -> CGFloat
 
     /// the color drawing borders around the slices.
-    var sliceBorderColor: NSUIColor { get set }
+    func getSliceBorderColor(index: Int) -> NSUIColor
 
 }

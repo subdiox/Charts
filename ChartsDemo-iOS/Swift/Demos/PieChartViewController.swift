@@ -36,8 +36,7 @@ class PieChartViewController: DemoBaseViewController {
                         .spin,
                         .drawCenter,
                         .saveToGallery,
-                        .toggleData,
-                        .toggleSliceBorders]
+                        .toggleData]
         
         self.setup(pieChartView: chartView)
         

@@ -153,19 +153,6 @@
         
         [chartView setNeedsDisplay];
     }
-    
-    if ([key isEqualToString:@"toggleSliceBorders"])
-    {
-        for (id<IPieChartDataSet, NSObject> set in chartView.data.dataSets)
-        {
-            if ([set conformsToProtocol:@protocol(IPieChartDataSet)])
-            {
-                set.sliceBorderWidth = set.sliceBorderWidth == 1.0 ? 0.0 : 1.0;
-            }
-        }
-        
-        [chartView setNeedsDisplay];
-    }
 }
 
 #pragma mark - Actions

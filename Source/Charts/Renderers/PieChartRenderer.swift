@@ -42,10 +42,10 @@ open class PieChartRenderer: DataRenderer
             // If we redraw the data, remove and repopulate accessible elements to update label values and frames
             accessibleChartElements.removeAll()
 
-            for set in pieData!.dataSets as! [IPieChartDataSet]
+            for (index, set) in (pieData!.dataSets as! [IPieChartDataSet]).enumerated()
                 where set.isVisible && set.entryCount > 0
             {
-                drawDataSet(context: context, dataSet: set)
+                drawDataSet(context: context, dataSet: set, index: index)
             }
         }
     }
@@ -109,7 +109,7 @@ open class PieChartRenderer: DataRenderer
         return sliceSpace
     }
 
-    @objc open func drawDataSet(context: CGContext, dataSet: IPieChartDataSet)
+    @objc open func drawDataSet(context: CGContext, dataSet: IPieChartDataSet, index: Int)
     {
         guard let chart = chart else {return }
 
@@ -119,8 +119,8 @@ open class PieChartRenderer: DataRenderer
         let phaseX = animator.phaseX
         let phaseY = animator.phaseY
 
-        let borderWidth = dataSet.sliceBorderWidth
-        let borderColor = dataSet.sliceBorderColor
+        let borderWidth = dataSet.getSliceBorderWidth(index: index)
+        let borderColor = dataSet.getSliceBorderColor(index: index)
         let drawBorder = borderWidth > 0.0
         
         let entryCount = dataSet.entryCount
